@@ -12,3 +12,6 @@ function dictionary ( keyvals, key ) = [
 
 // Get the index of the last member of a vector.
 function last ( vector ) = len ( vector ) - 1;
+
+// Module that does nothing.
+module nothing () {}
