@@ -5,7 +5,7 @@ function sum ( v, i = 0, r = 0 ) = ( i < len ( v ) ) ? sum ( v, i + 1, r + v[i] 
 
 // Element-wise vector multiplication.
 function v_mul ( v1, v2 ) = [
-	for ( i = [ 0 : min ( last(v1), last(v2) ) ] ) (
+	for ( i = [ 0 : min ( len ( v1 ) - 1, len ( v2 ) - 1 ) ] ) (
 		v1[i] * v2[i]
 	)
 ];
