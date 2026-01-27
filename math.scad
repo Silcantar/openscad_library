@@ -12,33 +12,43 @@ function v_mul ( v1, v2 ) = [
 
 // Rotation Matrices.
 // 2d rotation matrix.
-function rot2d ( angle ) = [
+function rot2d ( angle, affine = false ) = affine ? [
+	[ cos(angle),	-sin(angle)	,	0 ],
+	[ sin(angle),	cos(angle)	,	0 ],
+	[ 0,			0,				1 ],
+] : [
 	[ cos(angle),	-sin(angle)	],
 	[ sin(angle),	cos(angle)	],
 ];
 
 // 3d rotation matrix.
-function rot3d ( angles ) = let (
+function rot3d ( angles, affine = false ) = let (
 	a = angles.z,
 	b = angles.y,
 	c = angles.x
-) [
-	[
-		cos(a) * cos(b),
-		cos(a) * sin(b) * sin(c) - sin(a) * cos(c),
-		cos(a) * sin(b) * cos(c) - sin(a) * sin(c),
-	],
-	[
-		sin(a) * cos(b),
-		sin(a) * sin(b) * sin(c) + cos(a) * cos(c),
-		sin(a) * sin(b) * cos(c) - cos(a) * sin(c),
-	],
-	[
-		-sin(b),
-		cos(b) * sin(c),
-		cos(b) * cos(c),
-	],
-];
+) (
+	let ( 
+		rot = [
+			[
+				cos(a) * cos(b),
+				cos(a) * sin(b) * sin(c) - sin(a) * cos(c),
+				cos(a) * sin(b) * cos(c) - sin(a) * sin(c),
+			],
+			[
+				sin(a) * cos(b),
+				sin(a) * sin(b) * sin(c) + cos(a) * cos(c),
+				sin(a) * sin(b) * cos(c) - cos(a) * sin(c),
+			],
+			[
+				-sin(b),
+				cos(b) * sin(c),
+				cos(b) * cos(c),
+			],
+		]
+	) (
+		affine ? to_affine ( rot ) : rot
+	)
+);
 
 // Convert a 3x3 rotation matrix to a 4x4 affine matrix.
 function to_affine ( m ) = concat ( [ for ( row = m ) concat ( row, [ 0 ] ) ], [[ 0, 0, 0, 1 ]] );
