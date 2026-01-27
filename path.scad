@@ -59,20 +59,20 @@ function segment_to_transform (
 	trans_axis = axis.z
 ) = (
 	seg[0] == l ? (
-		trans ( -seg[1] * trans_axis )
+		trans3d ( -seg[1] * trans_axis )
 	) :
 	seg[0] == m ? (
 		to_affine ( rot3d ( -seg[2] * rot_axis ) )
 	) :
 	seg[0] == r && seg[1] < 0 ? (
-		trans ( -seg[1] * rad_axis )
+		trans3d ( -seg[1] * rad_axis )
 		* to_affine ( rot3d ( -seg[2] * rot_axis ) )
-		* trans ( seg[1] * rad_axis )
+		* trans3d ( seg[1] * rad_axis )
 	) :
 	seg[0] == r && seg[1] >= 0 ? (
-		trans ( -seg[1] * rad_axis )
+		trans3d ( -seg[1] * rad_axis )
 		* to_affine ( rot3d ( seg[2] * rot_axis ) )
-		* trans ( seg[1] * rad_axis )
+		* trans3d ( seg[1] * rad_axis )
 	) :
 	id ( 4 )
 );

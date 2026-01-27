@@ -43,8 +43,14 @@ function rot3d ( angles ) = let (
 // Convert a 3x3 rotation matrix to a 4x4 affine matrix.
 function to_affine ( m ) = concat ( [ for ( row = m ) concat ( row, [ 0 ] ) ], [[ 0, 0, 0, 1 ]] );
 
+function trans2d ( v ) = [
+	[	1,	0,	v.x	],
+	[	0,	1,	v.y	],
+	[	0,	0,	1	]
+];
+
 // 3d translation matrix.
-function trans ( v ) = [
+function trans3d ( v ) = [
 	[	1,	0,	0,	v.x	],
 	[	0,	1,	0,	v.y	],
 	[	0,	0,	1,	v.z	],
