@@ -1,0 +1,1 @@
+function oscillate () = 0.5 - 0.5 * cos ( 360 * $t );
