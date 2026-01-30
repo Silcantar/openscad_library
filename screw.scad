@@ -3,9 +3,10 @@
 |							Copyright 2026 Joshua Lucas 						|
 \*******************************************************************************/
 
-include <../androphage_globals.scad>
-
+include <globals.scad>
 include <screw_globals.scad>
+
+use <utility.scad>
 
 // Test
 screw (
@@ -100,14 +101,14 @@ module _head_flat (
 
 			cylinder (
 				d = 2 * diameter,
-				h = chamfer + eps
+				h = chamfer + $eps
 			);
 		}
 	}
 }
 
 module _head_round ( chamfer, diameter, drive ) {
-	cylinder ( d = diameter, h = chamfer + eps );
+	cylinder ( d = diameter, h = chamfer + $eps );
 
 	difference () {
 		sphere ( d = 1.5 * diameter );
@@ -131,8 +132,8 @@ module _drive_hex ( diameter, head_height ) {
 		[ -cos(30), sin(30)		]
 	] / 2 / cos(30);
 
-	translate ( [ 0, 0, -head_height - eps ] ) {
-		linear_extrude ( h = drive_size + eps ) {
+	translate ( [ 0, 0, -head_height - $eps ] ) {
+		linear_extrude ( h = drive_size + $eps ) {
 			polygon ( drive_size * unit_hexagon );
 		}
 	}

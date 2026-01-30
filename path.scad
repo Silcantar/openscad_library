@@ -3,7 +3,9 @@
 |							Copyright 2026 Joshua Lucas 						|
 \*******************************************************************************/
 
-include <math.scad>
+include <globals.scad>
+
+use <math.scad>
 
 axis = [
 	[ 1, 0, 0 ], // x
@@ -287,11 +289,11 @@ module _miter ( extrude, convexity ) {
 							}
 						}
 
-						translate ( [ 0, -extrude[1] - eps, 0 ] ) {
+						translate ( [ 0, -extrude[1] - $eps, 0 ] ) {
 							cube ( [
-								extrude[1] * ( sin ( extrude[2] ) + cos ( extrude[2] ) ) + eps,
-								2 * ( extrude[1] + eps ),
-								extrude[1] * sin ( extrude[2] ) + eps
+								extrude[1] * ( sin ( extrude[2] ) + cos ( extrude[2] ) ) + $eps,
+								2 * ( extrude[1] + $eps ),
+								extrude[1] * sin ( extrude[2] ) + $eps
 							] );
 						}
 					}
