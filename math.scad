@@ -155,21 +155,28 @@ function skew3d (
 	end = [ dim, dim ],
 );
 
+// Interpolate between two points using a circular arc with the given radius.
+// Arc curvature is counterclockwise from point 1 to point 2.
+// If radius is less than the distance between the points, do linear interpolation.
 function circular_interpolation (
-	a,
+	f,
 	point1,
 	point2,
 	radius,
-) = (
+) = ( radius >= norm ( point2 - point1 ) ) ? (
 	let (
-		v = point2 - point1,
-		midpoint = point1 + v / 2,
-		b = sqrt ( radius ^ 2 - norm ( v / 2 ) ^ 2 ),
-		origin = midpoint + b * [ [ 0, -1 ], [ 1, 0 ] ] * v / norm ( v ),
-		angle1 = acos ( ( point1.x - origin.x ) / radius ),
-		angle2 = acos ( ( point2.x - origin.x ) / radius ),
-		angle = a * ( angle2 - angle1 ) + angle1,
+		// Circular interpolation.
+		v = point2 - point1, // Chord of the arc between point1 and point2.
+		midpoint = point1 + v / 2, // Midpoint of the chord.
+		b = sqrt ( radius ^ 2 - norm ( v / 2 ) ^ 2 ), // Distance from chord midpoint to arc center.
+		origin = midpoint + b * [ [ 0, -1 ], [ 1, 0 ] ] * v / norm ( v ), // Arc center.
+		angle1 = acos ( ( point1.x - origin.x ) / radius ), // Angle between x axis and point1 radius.
+		angle2 = acos ( ( point2.x - origin.x ) / radius ), // Angle between x axis and point2 radius.
+		angle = f * ( angle2 - angle1 ) + angle1, // Angle between x axis and output point radius.
 	) (
 		origin + radius * [ cos ( angle ), sin ( angle ) ]
 	)
+) : (
+	// Linear interpolation.
+	( point2 - point1 ) * f + point1
 );

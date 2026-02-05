@@ -6,6 +6,10 @@
 //
 // If there are duplicate keys in the list, only the value for the first key
 // will be returned.
+//
+// Example:
+//		mydict = function ( key ) dictionary ( [ [ 0, "foo" ], [ 1, "bar" ] ], key );
+//		echo ( mydict ( 1 ) ); // Prints "bar".
 function dictionary ( keyvals, key ) = [
 	for ( i = keyvals ) if ( i[0] == key ) i[1]
 ][0];
