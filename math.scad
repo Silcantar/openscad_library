@@ -1,5 +1,7 @@
-// Vector Math.
+$fa = 10;
+$fs = 0.1;
 
+// Vector Math.
 // Product of the elements of a vector.
 function product ( v, i = 0, r = 1 ) = ( i < len ( v ) ) ? product ( v, i + 1, r * v[i] ) : r;
 
@@ -155,28 +157,51 @@ function skew3d (
 	end = [ dim, dim ],
 );
 
+
+// Test circular intepolation.
+module test_ci (){
+	point1 = [ 0, 0 ]; // [ -10 : 0.1 : 10 ]
+	dist = 1;
+	point2 = dist * [ cos ( 360 * $t ), sin ( 360 * $t ) ] + point1;
+	radius = 2.0; // [ 0 : 0.01 : 10 ]
+
+	translate ( point1 ) color ( "green" ) cylinder ( d = 0.2, h = 0.5 );
+	translate ( point2 ) color ( "red" ) cylinder ( d = 0.2, h = 0.5 );
+
+	for ( f = [ 0 : 0.1 : 1 ] ) {
+		let ( c = circular_interpolation ( f, point1, point2, radius ) ) {
+			echo ( c );
+			translate ( c.p ) {
+				cylinder ( d = 0.1, h = 1 );
+			}
+			translate ( c.o ) cylinder ( r = radius, h = 0.2);
+		}
+	}
+}
+
 // Interpolate between two points using a circular arc with the given radius.
 // Arc curvature is counterclockwise from point 1 to point 2.
-// If radius is less than the distance between the points, do linear interpolation.
+// If radius is less than half the distance between the points, do linear interpolation.
 function circular_interpolation (
 	f,
 	point1,
 	point2,
 	radius,
-) = ( radius >= norm ( point2 - point1 ) ) ? (
+) = ( radius >= norm ( point2 - point1 ) / 2 ) ? (
 	let (
 		// Circular interpolation.
 		v = point2 - point1, // Chord of the arc between point1 and point2.
 		midpoint = point1 + v / 2, // Midpoint of the chord.
 		b = sqrt ( radius ^ 2 - norm ( v / 2 ) ^ 2 ), // Distance from chord midpoint to arc center.
 		origin = midpoint + b * [ [ 0, -1 ], [ 1, 0 ] ] * v / norm ( v ), // Arc center.
-		angle1 = acos ( ( point1.x - origin.x ) / radius ), // Angle between x axis and point1 radius.
-		angle2 = acos ( ( point2.x - origin.x ) / radius ), // Angle between x axis and point2 radius.
+		normal1 = point1 - origin,
+		angle1 = atan ( normal1.y / normal1.x ) + ( normal1.x < 0 ? 180 : 0 ), // Angle between x axis and point1 radius.
+		angle2 = angle1 + 2 * asin ( norm ( v ) / 2 / radius ), // Angle between x axis and point2 radius.
 		angle = f * ( angle2 - angle1 ) + angle1, // Angle between x axis and output point radius.
 	) (
-		origin + radius * [ cos ( angle ), sin ( angle ) ]
+		object ( p = origin + radius * [ cos ( angle ), sin ( angle ) ], o = origin )
 	)
 ) : (
 	// Linear interpolation.
-	( point2 - point1 ) * f + point1
+	object ( p = ( point2 - point1 ) * f + point1, o = point1)
 );
