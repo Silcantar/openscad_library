@@ -58,9 +58,9 @@ colors = object ( [
     [ "Wisteria",	[ "MediumSlateBlue",    clear,          "MediumSlateBlue"	] ],
 ] );
 
-ks_33 ( travel = max_travel * oscillate() );
+ks33 ( travel = max_travel * oscillate() );
 
-module ks_33 ( color = color, travel = 0 ) {
+module ks33 ( color = color, travel = 0 ) {
     color ( colors[color][0] ) {
         lower_housing();
     }
