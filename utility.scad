@@ -19,3 +19,13 @@ function last ( vector ) = len ( vector ) - 1;
 
 // Module that does nothing.
 module nothing () {}
+
+// If *var* is not already a number, evaluate it as a boolean and return 1 if
+// true and 0 if false.
+function bool_to_num ( var ) = is_num ( var ) ? var : ( var ? 1 : 0 );
+
+// Absolute value function that supports iterating over a list.
+function abs2 ( var ) = (
+	is_list ( var ) ? [ for ( i = [ 0 : len ( var ) - 1 ]) abs ( var[i] ) ] :
+	abs ( var )
+);
