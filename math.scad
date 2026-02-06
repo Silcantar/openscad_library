@@ -169,7 +169,7 @@ module test_ci (){
 	translate ( point2 ) color ( "red" ) cylinder ( d = 0.2, h = 0.5 );
 
 	for ( f = [ 0 : 0.1 : 1 ] ) {
-		let ( c = circular_interpolation ( f, point1, point2, radius ) ) {
+		let ( c = circular_interpolation ( f, point1, point2, radius, object = true ) ) {
 			echo ( c );
 			translate ( c.p ) {
 				cylinder ( d = 0.1, h = 1 );
@@ -187,6 +187,7 @@ function circular_interpolation (
 	point1,
 	point2,
 	radius,
+	object = false,
 ) = ( radius >= norm ( point2 - point1 ) / 2 ) ? (
 	let (
 		// Circular interpolation.
@@ -198,10 +199,15 @@ function circular_interpolation (
 		angle1 = atan ( normal1.y / normal1.x ) + ( normal1.x < 0 ? 180 : 0 ), // Angle between x axis and point1 radius.
 		angle2 = angle1 + 2 * asin ( norm ( v ) / 2 / radius ), // Angle between x axis and point2 radius.
 		angle = f * ( angle2 - angle1 ) + angle1, // Angle between x axis and output point radius.
+		point = origin + radius * [ cos ( angle ), sin ( angle ) ],
 	) (
-		object ( p = origin + radius * [ cos ( angle ), sin ( angle ) ], o = origin )
+		object ? object ( p = point, o = origin ) : point
 	)
 ) : (
 	// Linear interpolation.
-	object ( p = ( point2 - point1 ) * f + point1, o = point1)
+	let (
+		point = ( point2 - point1 ) * f + point1,
+	) (
+		object ? object ( p = point, o = point1) : point
+	)
 );
