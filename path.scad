@@ -51,7 +51,7 @@ function arc_center ( p1, p2, r ) = (
 		u = v / lv,
 		a = asin ( lv / 2 / r ),
 	)
-	p1 + r * u * rot2d ( 90 - a )
+	p1 + r * u * rot2d ( 90 - a, affine = false ) //v / 2 + sqrt ( r ^ 2 - ( lv / 2 ) ^ 2 ) * rot2d ( 90, affine = false ) * u//
 );
 
 function segment_to_transform (
@@ -64,16 +64,16 @@ function segment_to_transform (
 		trans3d ( -seg[1] * trans_axis )
 	) :
 	seg[0] == m ? (
-		to_affine ( rot3d ( -seg[2] * rot_axis ) )
+		rot3d ( -seg[2] * rot_axis )
 	) :
 	seg[0] == r && seg[1] < 0 ? (
 		trans3d ( -seg[1] * rad_axis )
-		* to_affine ( rot3d ( -seg[2] * rot_axis ) )
+		* rot3d ( -seg[2] * rot_axis )
 		* trans3d ( seg[1] * rad_axis )
 	) :
 	seg[0] == r && seg[1] >= 0 ? (
 		trans3d ( -seg[1] * rad_axis )
-		* to_affine ( rot3d ( seg[2] * rot_axis ) )
+		* rot3d ( seg[2] * rot_axis )
 		* trans3d ( seg[1] * rad_axis )
 	) :
 	id ( 4 )

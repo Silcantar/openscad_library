@@ -48,7 +48,7 @@ function rot2d ( angle, affine = true ) = (
 		dim = affine ? 2 : 1,
 	) m_slice (
 		rot3d ( [ 0, 0, angle ] ),
-		end = dim,
+		end = [ dim, dim ],
 	)
 );
 
