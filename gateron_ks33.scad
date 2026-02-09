@@ -101,8 +101,12 @@ module lower_housing () {
         }
     }
 
-    translate ( [ 0, 0, $eps - lower_size.z / 2  ] ) {
-        cube ( lower_size + [ 0, 0, $eps ], center = true );
+    translate ( [ 0, 0, $eps - lower_size.z ] ) {
+        linear_extrude ( h = lower_size.z + $eps ) {
+            fillet2d ( filletRadius ) {
+                square ( [ lower_size.x, lower_size.y ], center = true );
+            }
+        }
     }
 
     // Center pin

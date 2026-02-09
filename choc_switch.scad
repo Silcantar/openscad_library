@@ -194,6 +194,21 @@ module choc_switch(travel=travel) {
         choc_switch_v1(bottom_color, top_color, stem_color, travel=travel);
 }
 
+function choc_color_name_to_number ( name ) = (
+    name == "Blue"      ? 1 :
+    name == "Brown"     ? 2 :
+    name == "Pro Red"   ? 3 :
+    name == "Pink"      ? 4 :
+    name == "Robin"     ? 5 :
+    name == "Sunset"    ? 6 :
+    name == "Twilight"  ? 7 :
+    name == "Nocturnal" ? 8 :
+    name == "Sunrise"   ? 9 :
+    name == "Bokeh"     ? 10 :
+    0 // Red
+);
+
+
 // Expanded switch-top for cutting away from key-cap bottom
 module switch_top(margin = 0.1) {
     size       = $choc_version == 2 ? [11.95, 11.95] : [11.6, 11.8];
